@@ -1,0 +1,155 @@
+/* fonts */
+
+/* Use the following CSS rules to specify these families: */
+
+/* font-family: 'Roboto', sans-serif; */
+/* font-family: 'Open Sans', sans-serif; */
+/* font-family: 'Roboto Condensed', sans-serif; */
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Condensed|Roboto:300,400,500');
+
+/* styles go here */
+body {
+  /*font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;*/
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+.accordion-open .accordion-content {
+  display: block;
+}
+
+.accordion-closed .accordion-content {
+  display: none;
+}
+
+.accordion-closed .accordion-caret {
+  transform: rotate(180deg);
+}
+
+/* atomic classes */
+
+.posa {
+  position: absolute;
+}
+
+.posr {
+  position: relative;
+}
+
+.t0 {
+  top: 0;
+}
+
+.t5 {
+  top: 5px;
+}
+
+.r10 {
+  right: 10px;
+}
+
+.m0 {
+  margin: 0;
+}
+
+.p0 {
+  padding: 0;
+}
+
+.p5 {
+  padding: 5px;
+}
+
+.p10 {
+  padding: 10px;
+}
+
+.pr20 {
+  padding-right: 20px;
+}
+
+.wauto {
+    width: auto !important;
+}
+
+.w40 {
+  width: 40px;
+}
+
+.w300 {
+  width: 300px;
+}
+
+.w1202 {
+  width: 1202px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.list-style-none {
+  list-style-type: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-dc {
+  flex-direction: column;
+}
+
+.flex-dr {
+  flex-direction: row;
+}
+
+.flex-as {
+  align-items: flex-start;
+}
+
+.dlfex-jsb {
+  justify-content: space-between;
+}
+
+.color-red {
+  color: red;
+}
+
+.title-bg-color {
+  background-color: #f1f8ff;
+}
+
+.title-border-color {
+  border: 1px solid #d6eefc;
+}
+
+.list-item-border-color {
+  border: 1px solid #eef7fe;
+}
+
+.color-blue {
+  color: #4ea1d3;
+}
+
+.color-black {
+  color: #bbb;
+}
+
+.no-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.cp {
+    cursor: pointer !important;
+}
