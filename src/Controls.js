@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './assets/App.css';
+import * as DATA from './Data';
 import Github from './Github';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -11,16 +12,11 @@ class Controls extends Component {
         super(props);
         this.state = {
             selectCoin: 'IOTA',
-            openMenu: false,
-            valueSingle: '3'
+            openMenu: false
         };
 
         this.handleChangeSelectCoin = this.handleChangeSelectCoin.bind(this);
     }
-
-    handleChangeSingle = (event, value) => {
-        this.setState({ selectCoin: value });
-    };
 
     handleChangeSelectCoin(event, value) {
         this.setState({ selectCoin: value });
@@ -35,10 +31,9 @@ class Controls extends Component {
                     onChange={this.handleChangeSelectCoin}
                     value={this.state.selectCoin}
                     className="t5 cp">
-                    <MenuItem value="IOTA" primaryText="IOTA" />
-                    <MenuItem value="ETH" primaryText="ETHEREUM" />
-                    <MenuItem value="OMG" primaryText="OMISEGO" />
-                    <MenuItem value="DOGE" primaryText="DOGECOIN" />
+                    {Object.keys(DATA.coinRepoKeys).map(function(key, index) {
+                            return <MenuItem key={index} value={key} primaryText={DATA.coinRepoKeys[key].name} />;
+                    })}
                 </IconMenu>
                 <br /><br />
                 <Github chartCoin={this.state.selectCoin} />

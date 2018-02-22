@@ -10,23 +10,22 @@ class Github extends Component {
             chartTitle: '',
             config: {}
         };
-
         this.providerStr = 'github';
         this.opStr = 'contributors';
         this.setChartConfig = this.setChartConfig.bind(this);
     }
 
     async componentDidMount() {
-        await this.callBranchContributors(this.props);
+        await this.getBranchContributors(this.props);
     }
 
     async componentWillReceiveProps(newProps) {
         if (this.props.chartCoin !== newProps.chartCoin) {
-            await this.callBranchContributors(newProps);
+            await this.getBranchContributors(newProps);
         }
     }
 
-    async callBranchContributors(newProps) {
+    async getBranchContributors(newProps) {
         const ownerStr = DATA.coinRepoKeys[newProps.chartCoin].owner;
         const repoStr = DATA.coinRepoKeys[newProps.chartCoin].repo;
         const cacheKey = `${this.providerStr}.${this.opStr}.${ownerStr}`;
@@ -35,7 +34,7 @@ class Github extends Component {
         let responseJson;
 
         if (cachedResponse) {
-            responseJson = cachedResponse;
+            responseJson = cachedResponse.data;
         } else {
             let responseObj = await fetch(DATA.apiEndPoints[this.providerStr][this.opStr](ownerStr, repoStr));
             responseJson = await responseObj.json();

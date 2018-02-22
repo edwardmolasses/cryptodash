@@ -34,21 +34,6 @@ export const coinRepoKeys = {
     }
 };
 
-//export const callApi = async function (api, op, owner, repo) {
-////debugger;
-//    const cacheKey = `${api}.${op}.${owner}`;
-//    let callResult = getCached(cacheKey);
-//
-//    if (!cachedCall) {
-//        callResult = await fetch(apiEndPoints[api][op](owner, repo));
-//        setCached(cacheKey, callResult);
-//    }
-//    //const callResult = cachedCall ? cachedCall : await fetch(apiEndPoints[api][op](owner, repo));
-//
-//    return callResult;
-//    //return fetch(apiEndPoints[api][op](owner, repo));
-//};
-
 export const setLocalStorage = function(key, value) {
     const localStorageItem = {};
     localStorageItem.timestamp = Date.now();
@@ -67,8 +52,8 @@ export const setCached = function(key, value) {
 
 export const getCached = function(key) {
     const localStorageItem = getLocalStorage(key);
-    let minutesBeforeExpiry = 30;
-    let nowMoment = moment();
+    const minutesBeforeExpiry = 30;
+    const nowMoment = moment();
     let cachedItemMoment;
     let cachedItemAge;
     let isCachedItemOld;
@@ -80,5 +65,5 @@ export const getCached = function(key) {
     cachedItemAge = nowMoment.diff(cachedItemMoment);
     isCachedItemOld = cachedItemAge > 1000 * 60 * minutesBeforeExpiry;
 
-    return isCachedItemOld ? false : localStorageItem.data;
+    return isCachedItemOld ? false : localStorageItem;
 };
