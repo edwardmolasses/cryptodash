@@ -34,40 +34,20 @@ export const coinRepoKeys = {
     }
 };
 
-
-export const getBranchWeekly = function (owner, repo) {
-    return fetch(`https://api.github.com/repos/${owner}/${repo}/stats/code_frequency`);
-};
-
-export const getBranchCommitsPerHour = function (owner, repo) {
-    return fetch(`https://api.github.com/repos/${owner}/${repo}/stats/punch_card`);
-};
-
-export const getBranchCommitYear = function (owner, repo) {
-    return fetch(`https://api.github.com/repos/${owner}/${repo}/stats/commit_activity`);
-};
-
-export const getBranchCommits = function (owner, repo) {
-    return fetch(`https://api.github.com/repos/${owner}/${repo}/commits`);
-};
-
-export const getRepoBranches = function (owner, repo) {
-    return fetch(`https://api.github.com/repos/${owner}/${repo}/branches`);
-};
-
-// e.g. DATA.getBranchContributors('iotaledger', 'wallet');
-export const getBranchContributors = function (owner, repo) {
-    //return fetch(`https://api.github.com/repos/${owner}/${repo}/stats/contributors`);
-    return fetch(apiEndPoints.github.contributors(owner, repo));
-};
-
-export const getBTCHistorical = function () {
-    return fetch("http://coincap.io/history/365day/BTC");
-};
-
-export const getETHHistorical = function () {
-    return fetch("http://coincap.io/history/365day/DASH");
-};
+//export const callApi = async function (api, op, owner, repo) {
+////debugger;
+//    const cacheKey = `${api}.${op}.${owner}`;
+//    let callResult = getCached(cacheKey);
+//
+//    if (!cachedCall) {
+//        callResult = await fetch(apiEndPoints[api][op](owner, repo));
+//        setCached(cacheKey, callResult);
+//    }
+//    //const callResult = cachedCall ? cachedCall : await fetch(apiEndPoints[api][op](owner, repo));
+//
+//    return callResult;
+//    //return fetch(apiEndPoints[api][op](owner, repo));
+//};
 
 export const setLocalStorage = function(key, value) {
     const localStorageItem = {};
@@ -82,7 +62,6 @@ export const getLocalStorage = function(key) {
 };
 
 export const setCached = function(key, value) {
-//debugger;
     setLocalStorage(key, value);
 };
 
@@ -101,23 +80,5 @@ export const getCached = function(key) {
     cachedItemAge = nowMoment.diff(cachedItemMoment);
     isCachedItemOld = cachedItemAge > 1000 * 60 * minutesBeforeExpiry;
 
-    return isCachedItemOld ? false : localStorageItem;
-};
-
-export const callApi = async function (api, op, owner, repo) {
-//debugger;
-    const cacheKey = `${api}.${op}.${owner}`;
-    let callResult = await getCached(cacheKey);
-
-    if (!callResult) {
-        let callResultObj = await fetch(apiEndPoints[api][op](owner, repo));
-        callResult = await callResultObj.json();
-        //let callResultJson = callResult.json();
-//debugger;
-        setCached(cacheKey, callResult);
-    }
-    //const callResult = cachedCall ? cachedCall : await fetch(apiEndPoints[api][op](owner, repo));
-
-    return callResult;
-    //return fetch(apiEndPoints[api][op](owner, repo));
+    return isCachedItemOld ? false : localStorageItem.data;
 };

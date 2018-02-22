@@ -7,42 +7,52 @@ class Github extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            chartTitle: '',
             config: {}
         };
 
-        this.getConfig = this.getConfig.bind(this);
+        this.providerStr = 'github';
+        this.opStr = 'contributors';
+        this.setChartConfig = this.setChartConfig.bind(this);
     }
 
     async componentDidMount() {
-        //const cachedCoin = DATA.getCached(this.props.chartCoin);
-        //const coinData = cachedCoin ? cachedCoin : await this.callBranchContributors(this.props);
-        const coinData = await this.callBranchContributors(this.props);
-
-        this.setState({config: this.getConfig(DATA.coinRepoKeys[this.props.chartCoin].name, coinData)});
+        await this.callBranchContributors(this.props);
     }
 
     async componentWillReceiveProps(newProps) {
         if (this.props.chartCoin !== newProps.chartCoin) {
-            //const cachedCoin = DATA.getCached(newProps.chartCoin);
-            //const coinData = cachedCoin ? cachedCoin : await this.callBranchContributors(newProps);
-            const coinData = await this.callBranchContributors(newProps);
-
-            this.setState({config: this.getConfig(DATA.coinRepoKeys[newProps.chartCoin].name, coinData)});
+            await this.callBranchContributors(newProps);
         }
     }
 
-    callBranchContributors(newProps) {
-        //let githubObj = await DATA.getBranchContributors(DATA.coinRepoKeys[newProps.chartCoin].owner, DATA.coinRepoKeys[newProps.chartCoin].repo);
-        let githubObj = DATA.callApi(
-            'github',
-            'contributors',
-            DATA.coinRepoKeys[newProps.chartCoin].owner,
-            DATA.coinRepoKeys[newProps.chartCoin].repo
-        );
+    async callBranchContributors(newProps) {
+        const ownerStr = DATA.coinRepoKeys[newProps.chartCoin].owner;
+        const repoStr = DATA.coinRepoKeys[newProps.chartCoin].repo;
+        const cacheKey = `${this.providerStr}.${this.opStr}.${ownerStr}`;
+        const cachedResponse = DATA.getCached(cacheKey);
+        const chartTitle = DATA.coinRepoKeys[newProps.chartCoin].name;
+        let responseJson;
 
-        //let githubJson = await githubObj.json();
+        if (cachedResponse) {
+            responseJson = cachedResponse;
+        } else {
+            let responseObj = await fetch(DATA.apiEndPoints[this.providerStr][this.opStr](ownerStr, repoStr));
+            responseJson = await responseObj.json();
+            DATA.setCached(cacheKey, responseJson);
+        }
+
+        this.setState({
+            config: this.setChartConfig(this.buildContributorsSeries(responseJson)),
+            chartTitle: chartTitle
+        });
+    }
+
+    buildContributorsSeries(jsonObj) {
+        let commitsMap;
         let series = [];
-        let commitsMap = githubObj
+
+        commitsMap = jsonObj
             .map(value => value.weeks)
             .reduce((sum, value) => sum.concat(value))
             .reduce((sum, value) => {
@@ -54,47 +64,16 @@ class Github extends Component {
             let timestamp = parseInt(value[0], 10);
             let commits = value[1];
 
-            if (Number.isInteger(timestamp)) {
+            if (timestamp) {
                 series.push([timestamp, commits]);
             }
         });
-        //DATA.setCached(newProps.chartCoin, series);
 
         return series;
     }
 
-    getConfig(title, series) {
+    setChartConfig(series) {
         return {
-            chart: {
-                renderTo: 'container2',
-                type: 'area'
-            },
-
-            title: {
-                text: title
-            },
-
-            legend: {
-                enabled: false
-            },
-
-            xAxis: {
-                type: 'datetime',
-                labels: {
-                    formatter: function () {
-                        return moment(this.value).format("M/D");
-                    }
-                }
-            },
-
-            plotOptions: {
-                series: {
-                    marker: {
-                        enabled: false
-                    }
-                }
-            },
-
             series: [{
                 data: series
             }]
@@ -102,9 +81,15 @@ class Github extends Component {
     }
 
     render() {
+        let chartFormatter = function () {
+            return moment(this.value).format("M/D");
+        };
         return (
             <div>
-                <Chart chartConfig={this.state.config}/>
+                <Chart chartConfig={this.state.config}
+                       chartTitle={this.state.chartTitle}
+                       chartFormatter={chartFormatter}
+                />
             </div>
         );
     }
