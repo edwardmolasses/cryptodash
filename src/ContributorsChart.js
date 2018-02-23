@@ -12,7 +12,6 @@ class ContributorsChart extends Component {
         };
         this.providerStr = 'github';
         this.opStr = 'contributors';
-        this.setChartSeries = this.setChartSeries.bind(this);
     }
 
     async componentDidMount() {
