@@ -59,7 +59,9 @@ class Chart extends Component {
 
     render() {
         let chartConfigSettings = Object.assign(
-            this.props.chartConfig,
+            {series: [{
+                data: this.props.chartSeries
+            }]},
             this.getConfigSettings(this.props.chartTitle, this.props.chartFormatter)
         );
         return (

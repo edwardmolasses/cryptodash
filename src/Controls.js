@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './assets/App.css';
 import * as DATA from './Data';
-import Github from './Github';
+import ContributorsChart from './ContributorsChart';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
@@ -36,7 +36,7 @@ class Controls extends Component {
                     })}
                 </IconMenu>
                 <br /><br />
-                <Github chartCoin={this.state.selectCoin} />
+                <ContributorsChart chartCoin={this.state.selectCoin} />
             </div>
         );
     }

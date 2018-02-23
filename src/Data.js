@@ -46,6 +46,10 @@ export const getLocalStorage = function(key) {
     return !!localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : false;
 };
 
+export const buildCacheKey = function(providerStr, opStr, idKey) {
+    return `${providerStr}.${opStr}.${idKey}`;
+};
+
 export const setCached = function(key, value) {
     setLocalStorage(key, value);
 };
