@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './assets/App.css';
-import DropdownControl from './DrowdownControl';
+import DropdownControl from './DropdownControl';
 import ContributorsChart from './ContributorsChart';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -10,9 +10,6 @@ class App extends Component {
     this.state = {
       series: []
     };
-  }
-
-  componentDidMount() {
   }
 
   render() {

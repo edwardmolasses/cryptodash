@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as DATA from './Data';
+import * as COMMON from './Common';
 import moment from 'moment';
 import Chart from './Chart';
 
@@ -27,8 +28,8 @@ class ContributorsChart extends Component {
     async getBranchContributors(newProps) {
         const ownerStr = DATA.coinRepoKeys[newProps.chartCoin].owner;
         const repoStr = DATA.coinRepoKeys[newProps.chartCoin].repo;
-        const cacheKey = DATA.buildCacheKey(this.providerStr, this.opStr, ownerStr);
-        const cachedResponse = DATA.getCached(cacheKey);
+        const cacheKey = COMMON.buildCacheKey(this.providerStr, this.opStr, ownerStr);
+        const cachedResponse = COMMON.getCached(cacheKey);
         const chartTitle = DATA.coinRepoKeys[newProps.chartCoin].name;
         let responseJson;
 
@@ -37,7 +38,7 @@ class ContributorsChart extends Component {
         } else {
             let responseObj = await fetch(DATA.apiEndPoints[this.providerStr][this.opStr](ownerStr, repoStr));
             responseJson = await responseObj.json();
-            DATA.setCached(cacheKey, responseJson);
+            COMMON.setCached(cacheKey, responseJson);
         }
 
         this.setState({
@@ -75,12 +76,10 @@ class ContributorsChart extends Component {
             return moment(this.value).format("M/D");
         };
         return (
-            <div>
-                <Chart chartSeries={this.state.series}
-                       chartTitle={this.state.chartTitle}
-                       chartFormatter={chartFormatter}
-                />
-            </div>
+            <Chart chartSeries={this.state.series}
+                   chartTitle={this.state.chartTitle}
+                   chartFormatter={chartFormatter}
+            />
         );
     }
 }

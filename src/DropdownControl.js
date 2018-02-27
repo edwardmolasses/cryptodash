@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './assets/App.css';
 import * as DATA from './Data';
+import * as COMMON from './Common';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
@@ -22,7 +23,7 @@ class DropdownControl extends Component {
     }
 
     render() {
-        const childWithProps = DATA.passStateToChildren(this.props.children, 'ContributorsChart', {chartCoin: this.state.selectCoin});
+        const childWithProps = COMMON.passStateToChildren(this.props.children, 'ContributorsChart', {chartCoin: this.state.selectCoin});
         return (
             <div>
                 <span>Coins</span>

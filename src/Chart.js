@@ -25,45 +25,36 @@ class Chart extends Component {
         return !isConfigSet || shouldUpdate;
     }
 
-    getConfigSettings(title, formatter) {
-        return {
-            title: {
-                text: title
-            },
+    render() {
+        let chartConfigSettings = {
+                title: {
+                    text: this.props.chartTitle
+                },
+                series: [{
+                    data: this.props.chartSeries
+                }],
+                xAxis: {
+                    type: 'datetime',
+                    labels: {
+                        formatter: this.props.chartFormatter
+                    }
+                },
+                chart: {
+                    renderTo: 'container',
+                    type: 'area'
+                },
 
-            xAxis: {
-                type: 'datetime',
-                labels: {
-                    formatter: formatter
-                }
-            },
-
-            chart: {
-                renderTo: 'container',
-                type: 'area'
-            },
-
-            legend: {
-                enabled: false
-            },
-
-            plotOptions: {
-                series: {
-                    marker: {
-                        enabled: false
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        marker: {
+                            enabled: false
+                        }
                     }
                 }
-            }
         };
-    }
-
-    render() {
-        let chartConfigSettings = Object.assign(
-            {series: [{
-                data: this.props.chartSeries
-            }]},
-            this.getConfigSettings(this.props.chartTitle, this.props.chartFormatter)
-        );
         return (
             <ReactHighcharts config={chartConfigSettings}></ReactHighcharts>
         );
