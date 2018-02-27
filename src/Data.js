@@ -1,3 +1,4 @@
+import React from 'react';
 import moment from 'moment';
 
 export const apiEndPoints = {
@@ -70,4 +71,13 @@ export const getCached = function(key) {
     isCachedItemOld = cachedItemAge > 1000 * 60 * minutesBeforeExpiry;
 
     return isCachedItemOld ? false : localStorageItem;
+};
+
+export const passStateToChildren = function(children, childName, state) {
+    return React.Children.map(children, (child) => {
+        let childName = child.type.name;
+        return childName === child.type.name
+            ? React.cloneElement(child, state)
+            : child;
+    });
 };

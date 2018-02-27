@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import './assets/App.css';
 import * as DATA from './Data';
-import ContributorsChart from './ContributorsChart';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import EditorMonetizationOn from 'material-ui/svg-icons/editor/monetization-on';
 
-class Controls extends Component {
+class DropdownControl extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,6 +22,7 @@ class Controls extends Component {
     }
 
     render() {
+        const childWithProps = DATA.passStateToChildren(this.props.children, 'ContributorsChart', {chartCoin: this.state.selectCoin});
         return (
             <div>
                 <span>Coins</span>
@@ -36,10 +36,12 @@ class Controls extends Component {
                     })}
                 </IconMenu>
                 <br /><br />
-                <ContributorsChart chartCoin={this.state.selectCoin} />
+                {childWithProps.map(function(child) {
+                    return child;
+                })}
             </div>
         );
     }
 }
 
-export default Controls;
+export default DropdownControl;

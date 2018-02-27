@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './assets/App.css';
-import Controls from './Controls';
+import DropdownControl from './DrowdownControl';
+import ContributorsChart from './ContributorsChart';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class App extends Component {
@@ -17,7 +18,9 @@ class App extends Component {
   render() {
     return (
         <MuiThemeProvider>
-            <Controls />
+            <DropdownControl>
+              <ContributorsChart />
+            </DropdownControl>
         </MuiThemeProvider>
     );
   }
