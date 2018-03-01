@@ -1,5 +1,3 @@
-Buddybuild StackTrace
-
 To install:
 
 > npm install
